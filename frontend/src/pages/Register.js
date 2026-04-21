@@ -1,13 +1,33 @@
 import { useState } from "react";
 import axios from "axios";
-import "./App.css";
+import "../App.css";
 
 function Register() {
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
 
   const handleRegister = async () => {
-    await axios.post("https://auth-backend-96q7.onrender.com/register", data);
-    alert("Registered Successfully 🌸");
+    if (!data.name || !data.email || !data.password) {
+      alert("Please fill all fields ⚠️");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        "https://auth-backend-96q7.onrender.com/register",
+        data
+      );
+
+      alert("Registered Successfully 🌸");
+      console.log(res.data);
+
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong 😢");
+    }
   };
 
   return (
@@ -17,17 +37,20 @@ function Register() {
 
         <input
           placeholder="Name"
+          value={data.name}
           onChange={e => setData({ ...data, name: e.target.value })}
         />
 
         <input
           placeholder="Email"
+          value={data.email}
           onChange={e => setData({ ...data, email: e.target.value })}
         />
 
         <input
           type="password"
           placeholder="Password"
+          value={data.password}
           onChange={e => setData({ ...data, password: e.target.value })}
         />
 
