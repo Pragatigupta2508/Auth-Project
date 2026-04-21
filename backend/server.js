@@ -1,19 +1,13 @@
-require('dotenv').config();  
-app.use(express.json()); 
+require('dotenv').config();
 
-console.log("Starting server...");
-console.log("MONGO URI:", process.env.MONGO_URI);
-console.log("JWT:", process.env.JWT_SECRET);
 const express = require('express');
+const app = express();
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 
-const User = require('./models/User');
-const auth = require('./middleware/auth');
-
-const app = express();
 app.use(express.json());
 app.use(cors());
 
