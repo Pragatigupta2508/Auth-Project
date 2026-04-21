@@ -22,6 +22,7 @@ function Login() {
     </div>
   );
 }
+localStorage.setItem("token", res.data.token);
 <p onClick={() => window.location.href="/register"} style={{cursor:"pointer"}}>
   New user? Register here ✨
 </p>
