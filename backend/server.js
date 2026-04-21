@@ -1,4 +1,5 @@
-require('dotenv').config();   
+require('dotenv').config();  
+app.use(express.json()); 
 
 console.log("Starting server...");
 console.log("MONGO URI:", process.env.MONGO_URI);
@@ -22,16 +23,29 @@ mongoose.connect(process.env.MONGO_URI)
 
 // REGISTER
 app.post('/register', async (req, res) => {
-  const { name, email, password } = req.body;
+  try {
+    const { name, email, password } = req.body;
 
-  const hashed = await bcrypt.hash(password, 10);
+    if (!name || !email || !password) {
+      return res.status(400).send("All fields required");
+    }
 
-  const user = new User({ name, email, password: hashed });
-  await user.save();
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).send("User already exists");
+    }
 
-  res.send("Registered");
+    const hashed = await bcrypt.hash(password, 10);
+
+    const user = new User({ name, email, password: hashed });
+    await user.save();
+
+    res.send("Registered");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server error");
+  }
 });
-
 
 // LOGIN
 app.post('/login', async (req, res) => {
