@@ -24,6 +24,8 @@ mongoose.connect(process.env.MONGO_URI)
 // REGISTER
 app.post('/register', async (req, res) => {
   try {
+    console.log("BODY:", req.body); // 👈 DEBUG
+
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
@@ -40,9 +42,9 @@ app.post('/register', async (req, res) => {
     const user = new User({ name, email, password: hashed });
     await user.save();
 
-    res.send("Registered");
+    res.send("Registered Successfully");
   } catch (err) {
-    console.log(err);
+    console.log("ERROR:", err);
     res.status(500).send("Server error");
   }
 });
