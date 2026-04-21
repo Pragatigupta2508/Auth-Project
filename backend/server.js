@@ -8,6 +8,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 
+const User = require('./models/User');
+const auth = require('./middleware/auth'); // 👈 THIS LINE
+
 app.use(express.json());
 app.use(cors());
 
