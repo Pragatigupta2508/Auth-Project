@@ -5,11 +5,23 @@ import "../App.css";
 function Login() {
   const [data, setData] = useState({});
 
-  const handleLogin = async () => {
-    const res = await axios.post("https://auth-backend-96q7.onrender.com/login", data);
+ const handleLogin = async () => {
+  try {
+    const res = await axios.post(
+      "https://auth-project-tq21.onrender.com/login",
+      data
+    );
+
     localStorage.setItem("token", res.data.token);
-    alert("Welcome back 💖");
-  };
+    alert("Login Successful 🎉");
+
+    window.location.href = "/dashboard";
+
+  } catch (err) {
+    console.log(err);
+    alert("Login Failed ❌");
+  }
+};
 
   return (
     <div className="container">
